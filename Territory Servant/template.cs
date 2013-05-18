@@ -51,7 +51,12 @@ namespace Territory_Servant {
         if (nodes.Count > 0) {
           foreach (XmlNode node in nodes) {
             PdfPage page = document.AddPage();
-            page.Size = PdfSharp.PageSize.Letter;
+            try {
+                page.Size = (PdfSharp.PageSize)Enum.Parse(typeof(PdfSharp.PageSize), node.Attributes["size"].Value);
+            } catch {
+                page.Size = PdfSharp.PageSize.Letter;
+            }
+            
             page.Orientation = PdfSharp.PageOrientation.Landscape;
             this.gfx = XGraphics.FromPdfPage(page);
             this.tf = new XTextFormatter(this.gfx);
