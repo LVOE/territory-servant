@@ -11,7 +11,7 @@ namespace Territory_Servant {
     public PointLatLng position;
     public Bitmap bmp, bmp2;
     public bool locked;
-    public string name, directions, directions_from, directions_to;
+    public string name, directions, directions_from, directions_to, notes;
     public Color property_color = Color.FromArgb(237, 230, 220);
     public Color house_color = Color.FromArgb(193, 255, 193);
     public Color dnc_color = Color.FromArgb(255, 73, 73);

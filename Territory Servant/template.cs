@@ -122,11 +122,15 @@ namespace Territory_Servant {
 
             nodes = node.SelectNodes("map_name");
             if (nodes.Count > 0)
-              parse_text(nodes);
+                parse_text(nodes);
 
             nodes = node.SelectNodes("dnc_list");
             if (nodes.Count > 0)
-              parse_text(nodes);
+                parse_text(nodes);
+
+            nodes = node.SelectNodes("other_notes");
+            if (nodes.Count > 0)
+                parse_text(nodes);
 
             nodes = node.SelectNodes("directions");
             if (nodes.Count > 0)
@@ -148,11 +152,16 @@ namespace Territory_Servant {
     private void parse_text(XmlNodeList nodes) {
       double x, y, width, height, font_size;
       string align, font_family, font_style, prefix, suffix;
+      bool include_other_notes;
       Color color;
 
       foreach (XmlNode node in nodes) {
         if (node.Attributes.Count > 0) {
-
+          
+          if (node.Attributes["include_other_notes"] != null)
+            include_other_notes = Convert.ToBoolean(node.Attributes["include_other_notes"].Value);
+          else
+            include_other_notes = false;
           if (node.Attributes["x"] != null)
             x = Convert.ToDouble(node.Attributes["x"].Value);
           else
@@ -237,6 +246,9 @@ namespace Territory_Servant {
               break;
           }
 
+          prefix = System.Text.RegularExpressions.Regex.Unescape(prefix);
+          suffix = System.Text.RegularExpressions.Regex.Unescape(suffix);
+
           switch (node.Name.ToLower()) {
             case "cong_name":
               this.gfx.DrawString(prefix + Form1.settings.cong_name + suffix, font, new XSolidBrush(XColor.FromArgb(color)), new XRect(x, y, width, height), format);
@@ -245,7 +257,12 @@ namespace Territory_Servant {
               this.gfx.DrawString(prefix + Form1.map.name + suffix, font, new XSolidBrush(XColor.FromArgb(color)), new XRect(x, y, width, height), format);
               break;
             case "dnc_list":
+              if (include_other_notes && Form1.map.notes.Length > 0)
+                suffix += "\n" + Form1.map.notes;
               this.tf.DrawString(prefix + generate_dnc_list(font, width) + suffix, font, new XSolidBrush(XColor.FromArgb(color)), new XRect(x, y, width, height), XStringFormats.TopLeft);
+              break;
+            case "other_notes":
+              this.tf.DrawString(prefix + Form1.map.notes + suffix, font, new XSolidBrush(XColor.FromArgb(color)), new XRect(x, y, width, height), XStringFormats.TopLeft);
               break;
             case "directions":
               this.tf.DrawString(prefix + generate_directions(font, width) + suffix, font, new XSolidBrush(XColor.FromArgb(color)), new XRect(x, y, width, height), XStringFormats.TopLeft);              
