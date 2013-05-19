@@ -28,7 +28,7 @@ namespace Territory_Servant {
       InitializeComponent();
     }
 
-    public const double Version = 1.1;
+    public const double Version = 1.2;
 
     public static Map map;
     public static Settings settings;
@@ -131,7 +131,7 @@ namespace Territory_Servant {
       txtExportLog.Height = xPanderPanelList1.Height - 268;
       txtDirections.Height = xPanderPanelList1.Height - 387;
 
-      lstDNC.Height = xPanderPanelList1.Height - 309;
+      txtNotes.Height = xPanderPanelList1.Height - 437;
     }
 
     private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
@@ -389,6 +389,7 @@ namespace Territory_Servant {
       map.directions_from = txtFrom.Text;
       map.directions_to = txtTo.Text;
       map.directions = txtDirections.Text;
+      map.notes = txtNotes.Text;
 
       if (!update_only) {
         File.WriteAllText(filename, ObjectToString(map));
@@ -407,6 +408,7 @@ namespace Territory_Servant {
       txtFrom.Text = map.directions_from;
       txtTo.Text = map.directions_to;
       txtDirections.Text = map.directions;
+      txtNotes.Text = map.notes;
 
       if (map.house_color == Color.Empty)
         map.house_color = settings.house_color;
@@ -945,6 +947,11 @@ namespace Territory_Servant {
         BeginInvoke(m);
         return;
       } catch { }
+    }
+
+    private void label8_Click(object sender, EventArgs e)
+    {
+
     }
     //////////////////////////////////////////////////////////////////////////////
   }
