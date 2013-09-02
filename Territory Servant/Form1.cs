@@ -241,31 +241,38 @@ namespace Territory_Servant
             save_settings();
         }
 
-        private void save_settings()
+        private void save_settings(bool FullSave = true)
         {
+            if (settings == null)
+                return; 
+
             string filename = Path.GetDirectoryName(Application.ExecutablePath) + @"\settings.dat";
-            settings.cong_name = settings_form.txtCongName.Text;
-            settings.hall_address = settings_form.txtHallAddress.Text;
+
+            if (FullSave)
+            {
+                settings.cong_name = settings_form.txtCongName.Text;
+                settings.hall_address = settings_form.txtHallAddress.Text;
+                settings.house_color = settings_form.pbxHouseColor.BackColor;
+                settings.dnc_color = settings_form.pbxDNCColor.BackColor;
+                settings.so_color = settings_form.pbxSOColor.BackColor;
+                settings.main_zoom = settings_form.tbrMainZoom.Value;
+                settings.area_zoom = settings_form.tbrAreaZoom.Value;
+
+                if (!map.locked)
+                {
+                    map.main_zoom = settings.main_zoom;
+                    map.area_zoom = settings.area_zoom;
+                }
+
+                if (!map.locked && gmMain.Zoom != settings_form.tbrMainZoom.Value)
+                {
+                    gmMain.MinZoom = settings_form.tbrMainZoom.Value;
+                    gmMain.MaxZoom = settings_form.tbrMainZoom.Value;
+                    gmMain.Zoom = settings_form.tbrMainZoom.Value;
+                    gmMain.Update();
+                }
+            }
             settings.last_template = ((TemplateItem)cmbTemplate.SelectedItem).Value;
-            settings.house_color = settings_form.pbxHouseColor.BackColor;
-            settings.dnc_color = settings_form.pbxDNCColor.BackColor;
-            settings.so_color = settings_form.pbxSOColor.BackColor;
-            settings.main_zoom = settings_form.tbrMainZoom.Value;
-            settings.area_zoom = settings_form.tbrAreaZoom.Value;
-
-            if (!map.locked)
-            {
-                map.main_zoom = settings.main_zoom;
-                map.area_zoom = settings.area_zoom;
-            }
-
-            if (!map.locked && gmMain.Zoom != settings_form.tbrMainZoom.Value)
-            {
-                gmMain.MinZoom = settings_form.tbrMainZoom.Value;
-                gmMain.MaxZoom = settings_form.tbrMainZoom.Value;
-                gmMain.Zoom = settings_form.tbrMainZoom.Value;
-                gmMain.Update();
-            }
 
             File.WriteAllText(filename, ObjectToString(settings));
         }
@@ -1109,6 +1116,11 @@ namespace Territory_Servant
         {
             if (cmbTemplate.SelectedIndex < 0)
                 cmbTemplate.SelectedIndex = 0;
+        }
+
+        private void cmbTemplate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            save_settings(false);
         }
         //////////////////////////////////////////////////////////////////////////////
     }

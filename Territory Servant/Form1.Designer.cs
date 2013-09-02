@@ -469,6 +469,7 @@
             this.cmbTemplate.Size = new System.Drawing.Size(168, 21);
             this.cmbTemplate.Sorted = true;
             this.cmbTemplate.TabIndex = 1;
+            this.cmbTemplate.SelectedIndexChanged += new System.EventHandler(this.cmbTemplate_SelectedIndexChanged);
             this.cmbTemplate.TextChanged += new System.EventHandler(this.cmbTemplate_TextChanged);
             // 
             // lblExportInstructions
