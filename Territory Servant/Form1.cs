@@ -96,7 +96,6 @@ namespace Territory_Servant
                 if (settings_form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     save_settings();
-                    txtTemplate.Text = Path.GetDirectoryName(Application.ExecutablePath) + @"\Templates\default.xml";
                     txtFrom.Text = settings.hall_address;
                 }
             }
@@ -169,7 +168,20 @@ namespace Territory_Servant
 
         private void load_templates()
         {
+            String template_dir = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + "Templates";
+            cmbTemplate.Items.Clear();
 
+            if (Directory.Exists(template_dir))
+            {
+                DirectoryInfo dir = new DirectoryInfo(template_dir);
+                FileInfo[] files = dir.GetFiles();
+                TextInfo text_info = new CultureInfo("en-US", false).TextInfo;
+                foreach (var f in files)
+                {
+                    cmbTemplate.Items.Add(new TemplateItem(text_info.ToTitleCase(f.Name.Replace('_', ' ').Replace('-', ' ').ToLower().Replace(".xml", "")), f.DirectoryName + Path.DirectorySeparatorChar + f.Name));
+                }
+                cmbTemplate.SelectedIndex = 0;
+            }
         }
 
         private void load_settings()
@@ -214,9 +226,12 @@ namespace Territory_Servant
 
             if (settings.last_template.Length > 0 && File.Exists(settings.last_template))
             {
-                txtTemplate.Text = settings.last_template;
-                txtTemplate.Select(txtTemplate.TextLength, 0);
-                txtTemplate.ScrollToCaret();
+                foreach (TemplateItem item in cmbTemplate.Items) {
+                    if (item.Value == settings.last_template) {
+                        cmbTemplate.SelectedIndex = cmbTemplate.Items.IndexOf(item);
+                        break;
+                    }
+                }
                 label1.Focus();
             }
 
@@ -231,7 +246,7 @@ namespace Territory_Servant
             string filename = Path.GetDirectoryName(Application.ExecutablePath) + @"\settings.dat";
             settings.cong_name = settings_form.txtCongName.Text;
             settings.hall_address = settings_form.txtHallAddress.Text;
-            settings.last_template = txtTemplate.Text;
+            settings.last_template = ((TemplateItem)cmbTemplate.SelectedItem).Value;
             settings.house_color = settings_form.pbxHouseColor.BackColor;
             settings.dnc_color = settings_form.pbxDNCColor.BackColor;
             settings.so_color = settings_form.pbxSOColor.BackColor;
@@ -818,20 +833,6 @@ namespace Territory_Servant
             gmMain.CanDragMap = false;
         }
 
-        private void txtTemplate_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (openTemplateDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                template = new Template(openTemplateDialog.FileName);
-                txtTemplate.Text = openTemplateDialog.FileName;
-                txtTemplate.Select(txtTemplate.TextLength, 0);
-                txtTemplate.ScrollToCaret();
-                label1.Focus();
-
-                save_settings();
-            }
-        }
-
         private void btnExport_MouseClick(object sender, MouseEventArgs e)
         {
             if (!map.locked)
@@ -840,7 +841,7 @@ namespace Territory_Servant
                 return;
             }
 
-            if (txtTemplate.Text.Length < 1)
+            if (cmbTemplate.SelectedIndex < 0)
             {
                 MessageBox.Show("Please select a template file before exporting");
                 return;
@@ -848,7 +849,7 @@ namespace Territory_Servant
 
             txtExportLog.Clear();
 
-            template = new Template(txtTemplate.Text);
+            template = new Template(((TemplateItem)cmbTemplate.SelectedItem).Value);
 
             if (savePdfDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -1102,6 +1103,12 @@ namespace Territory_Servant
         private void label8_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmbTemplate_TextChanged(object sender, EventArgs e)
+        {
+            if (cmbTemplate.SelectedIndex < 0)
+                cmbTemplate.SelectedIndex = 0;
         }
         //////////////////////////////////////////////////////////////////////////////
     }
