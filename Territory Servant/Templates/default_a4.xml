@@ -1,7 +1,7 @@
 <!-- Default Template -->
 <template>
 	<page size="A4">
-		<map type="2" x="37" y="70" width="647" height="611" />
+		<map type="1" x="37" y="70" width="647" height="611" />
 		<cong_name x="37" y="22" width="767" height="25" style="regular" align="center" font="Arial" size="16" color="#ff0000" suffix=" Territory Map" />
 		<map_name x="535" y="43" width="271" height="14" font="Arial" size="14" align="right" color="#808080" prefix="Territory Number: " />
 		<text x="560" y="73" width="222" height="15" style="bold" align="left" font="Arial" size="10" color="#ff0000">Do Not Calls and Notes:</text>

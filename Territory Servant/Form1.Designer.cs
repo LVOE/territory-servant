@@ -74,6 +74,7 @@
             this.txtMapName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.savePdfDialog = new System.Windows.Forms.SaveFileDialog();
+            this.cmbTemplate = new System.Windows.Forms.ComboBox();
             this.xPanderPanelList1.SuspendLayout();
             this.xppNavigate.SuspendLayout();
             this.xppMark.SuspendLayout();
@@ -243,13 +244,12 @@
             this.xppMark.CustomColors.FlatCaptionGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.xppMark.CustomColors.FlatCaptionGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.xppMark.CustomColors.InnerBorderColor = System.Drawing.SystemColors.Window;
-            this.xppMark.Expand = true;
             this.xppMark.ForeColor = System.Drawing.SystemColors.ControlText;
             this.xppMark.Image = null;
             this.xppMark.Name = "xppMark";
             this.xppMark.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.xppMark.PanelStyle = BSE.Windows.Forms.PanelStyle.Office2007;
-            this.xppMark.Size = new System.Drawing.Size(235, 511);
+            this.xppMark.Size = new System.Drawing.Size(235, 25);
             this.xppMark.TabIndex = 1;
             this.xppMark.Text = "Mark";
             this.xppMark.ToolTipTextCloseIcon = null;
@@ -423,6 +423,7 @@
             // xppExport
             // 
             this.xppExport.CaptionFont = new System.Drawing.Font("Segoe UI", 7.25F, System.Drawing.FontStyle.Bold);
+            this.xppExport.Controls.Add(this.cmbTemplate);
             this.xppExport.Controls.Add(this.lblExportInstructions);
             this.xppExport.Controls.Add(this.txtExportLog);
             this.xppExport.Controls.Add(this.btnExport);
@@ -449,12 +450,13 @@
             this.xppExport.CustomColors.FlatCaptionGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.xppExport.CustomColors.FlatCaptionGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.xppExport.CustomColors.InnerBorderColor = System.Drawing.SystemColors.Window;
+            this.xppExport.Expand = true;
             this.xppExport.ForeColor = System.Drawing.SystemColors.ControlText;
             this.xppExport.Image = null;
             this.xppExport.Name = "xppExport";
             this.xppExport.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.xppExport.PanelStyle = BSE.Windows.Forms.PanelStyle.Office2007;
-            this.xppExport.Size = new System.Drawing.Size(235, 25);
+            this.xppExport.Size = new System.Drawing.Size(235, 511);
             this.xppExport.TabIndex = 0;
             this.xppExport.Text = "Export";
             this.xppExport.ToolTipTextCloseIcon = null;
@@ -466,7 +468,7 @@
             // 
             this.lblExportInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblExportInstructions.Location = new System.Drawing.Point(4, -47);
+            this.lblExportInstructions.Location = new System.Drawing.Point(4, 439);
             this.lblExportInstructions.Name = "lblExportInstructions";
             this.lblExportInstructions.Size = new System.Drawing.Size(226, 73);
             this.lblExportInstructions.TabIndex = 4;
@@ -644,6 +646,14 @@
             this.savePdfDialog.Filter = "PDF Files|*.pdf";
             this.savePdfDialog.RestoreDirectory = true;
             // 
+            // cmbTemplate
+            // 
+            this.cmbTemplate.FormattingEnabled = true;
+            this.cmbTemplate.Location = new System.Drawing.Point(61, 34);
+            this.cmbTemplate.Name = "cmbTemplate";
+            this.cmbTemplate.Size = new System.Drawing.Size(168, 21);
+            this.cmbTemplate.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -727,6 +737,7 @@
         private System.Windows.Forms.SaveFileDialog savePdfDialog;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtNotes;
+        private System.Windows.Forms.ComboBox cmbTemplate;
 
     }
 }
