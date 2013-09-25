@@ -58,9 +58,8 @@ namespace Territory_Servant {
       gmMain.MapProvider = GMapProviders.GoogleMap;
       gmMain.Scale(new SizeF(2, 2));
       gmMain.Scale(new SizeF(0.5F, 0.5F));
-      GMapOverlay objects = new GMapOverlay(gmMain, "objects");
+        GMapOverlay objects = new GMapOverlay(gmMain, "objects");
       gmMain.Overlays.Add(objects);
-
       polygons = new GMapOverlay(gmMain, "polygons");
       gmMain.Overlays.Add(polygons);
       flood_filler.FillStyle = FloodFillStyle.Queue;
@@ -103,7 +102,13 @@ namespace Territory_Servant {
         gmMain.Zoom = settings.main_zoom;
         gmMain.MinZoom = settings.main_zoom;
         gmMain.MaxZoom = settings.main_zoom;
-        gmMain.SetCurrentPositionByKeywords(settings.hall_address);
+
+        GDirections tmpDirections;
+
+        GoogleMapProvider.Instance.GetDirections(out tmpDirections, settings.hall_address, settings.hall_address, false, false, false, false, false);
+        PointLatLng pnt = tmpDirections.StartLocation;
+
+        gmMain.Position = new PointLatLng(pnt.Lat, pnt.Lng);
       }
 
       xppNavigate.Expand = true;
@@ -260,7 +265,7 @@ namespace Territory_Servant {
           var i = 0;
           foreach (PointLatLng point in poly.Points) {
             GPoint tmp = gmMain.FromLatLngToLocal(point);
-            map_points[i] = new Point(tmp.X, tmp.Y);
+            map_points[i] = new Point(unchecked((int)tmp.X), unchecked((int)tmp.Y));
             i++;
           }
         }
@@ -491,7 +496,11 @@ namespace Territory_Servant {
     private void btnSearch_Click(object sender, EventArgs e) {
       if (txtSearch.Text != "Enter an address and hit search" && txtSearch.Text != "" && !map.locked) {
         map_changed();
-        gmMain.SetCurrentPositionByKeywords(txtSearch.Text);
+        GDirections tmpDirections;
+        GoogleMapProvider.Instance.GetDirections(out tmpDirections, txtSearch.Text, txtSearch.Text, false, false, false, false, false);
+        PointLatLng pnt = tmpDirections.StartLocation;
+
+        gmMain.Position = new PointLatLng(pnt.Lat, pnt.Lng);
       }
     }
     //////////////////////////////////////////////////////////////////////////////
