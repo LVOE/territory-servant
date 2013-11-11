@@ -52,10 +52,10 @@
             this.txtFrom = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.xppExport = new BSE.Windows.Forms.XPanderPanel();
+            this.cmbTemplate = new System.Windows.Forms.ComboBox();
             this.lblExportInstructions = new System.Windows.Forms.Label();
             this.txtExportLog = new System.Windows.Forms.TextBox();
             this.btnExport = new System.Windows.Forms.Button();
-            this.txtTemplate = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.pbMain = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -243,13 +243,12 @@
             this.xppMark.CustomColors.FlatCaptionGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.xppMark.CustomColors.FlatCaptionGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.xppMark.CustomColors.InnerBorderColor = System.Drawing.SystemColors.Window;
-            this.xppMark.Expand = true;
             this.xppMark.ForeColor = System.Drawing.SystemColors.ControlText;
             this.xppMark.Image = null;
             this.xppMark.Name = "xppMark";
             this.xppMark.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.xppMark.PanelStyle = BSE.Windows.Forms.PanelStyle.Office2007;
-            this.xppMark.Size = new System.Drawing.Size(235, 511);
+            this.xppMark.Size = new System.Drawing.Size(235, 25);
             this.xppMark.TabIndex = 1;
             this.xppMark.Text = "Mark";
             this.xppMark.ToolTipTextCloseIcon = null;
@@ -423,10 +422,10 @@
             // xppExport
             // 
             this.xppExport.CaptionFont = new System.Drawing.Font("Segoe UI", 7.25F, System.Drawing.FontStyle.Bold);
+            this.xppExport.Controls.Add(this.cmbTemplate);
             this.xppExport.Controls.Add(this.lblExportInstructions);
             this.xppExport.Controls.Add(this.txtExportLog);
             this.xppExport.Controls.Add(this.btnExport);
-            this.xppExport.Controls.Add(this.txtTemplate);
             this.xppExport.Controls.Add(this.label6);
             this.xppExport.CustomColors.BackColor = System.Drawing.SystemColors.Control;
             this.xppExport.CustomColors.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(184)))), ((int)(((byte)(184)))), ((int)(((byte)(184)))));
@@ -449,12 +448,13 @@
             this.xppExport.CustomColors.FlatCaptionGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
             this.xppExport.CustomColors.FlatCaptionGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.xppExport.CustomColors.InnerBorderColor = System.Drawing.SystemColors.Window;
+            this.xppExport.Expand = true;
             this.xppExport.ForeColor = System.Drawing.SystemColors.ControlText;
             this.xppExport.Image = null;
             this.xppExport.Name = "xppExport";
             this.xppExport.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
             this.xppExport.PanelStyle = BSE.Windows.Forms.PanelStyle.Office2007;
-            this.xppExport.Size = new System.Drawing.Size(235, 25);
+            this.xppExport.Size = new System.Drawing.Size(235, 511);
             this.xppExport.TabIndex = 0;
             this.xppExport.Text = "Export";
             this.xppExport.ToolTipTextCloseIcon = null;
@@ -462,11 +462,21 @@
             this.xppExport.ToolTipTextExpandIconPanelExpanded = null;
             this.xppExport.ExpandClick += new System.EventHandler<System.EventArgs>(this.xppExport_ExpandClick_1);
             // 
+            // cmbTemplate
+            // 
+            this.cmbTemplate.Location = new System.Drawing.Point(61, 34);
+            this.cmbTemplate.Name = "cmbTemplate";
+            this.cmbTemplate.Size = new System.Drawing.Size(168, 21);
+            this.cmbTemplate.Sorted = true;
+            this.cmbTemplate.TabIndex = 1;
+            this.cmbTemplate.SelectedIndexChanged += new System.EventHandler(this.cmbTemplate_SelectedIndexChanged);
+            this.cmbTemplate.TextChanged += new System.EventHandler(this.cmbTemplate_TextChanged);
+            // 
             // lblExportInstructions
             // 
             this.lblExportInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblExportInstructions.Location = new System.Drawing.Point(4, -47);
+            this.lblExportInstructions.Location = new System.Drawing.Point(4, 439);
             this.lblExportInstructions.Name = "lblExportInstructions";
             this.lblExportInstructions.Size = new System.Drawing.Size(226, 73);
             this.lblExportInstructions.TabIndex = 4;
@@ -494,16 +504,6 @@
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnExport_MouseClick);
-            // 
-            // txtTemplate
-            // 
-            this.txtTemplate.BackColor = System.Drawing.Color.White;
-            this.txtTemplate.Location = new System.Drawing.Point(61, 36);
-            this.txtTemplate.Name = "txtTemplate";
-            this.txtTemplate.ReadOnly = true;
-            this.txtTemplate.Size = new System.Drawing.Size(169, 20);
-            this.txtTemplate.TabIndex = 1;
-            this.txtTemplate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtTemplate_MouseClick);
             // 
             // label6
             // 
@@ -712,7 +712,6 @@
         private System.Windows.Forms.TextBox txtFrom;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.TextBox txtTemplate;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.OpenFileDialog openTemplateDialog;
         private System.Windows.Forms.Button btnExport;
@@ -727,6 +726,7 @@
         private System.Windows.Forms.SaveFileDialog savePdfDialog;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtNotes;
+        private System.Windows.Forms.ComboBox cmbTemplate;
 
     }
 }
