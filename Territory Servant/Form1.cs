@@ -114,7 +114,13 @@ namespace Territory_Servant
                 gmMain.Zoom = settings.main_zoom;
                 gmMain.MinZoom = settings.main_zoom;
                 gmMain.MaxZoom = settings.main_zoom;
-                gmMain.SetCurrentPositionByKeywords(settings.hall_address);
+
+        GDirections tmpDirections;
+
+        GoogleMapProvider.Instance.GetDirections(out tmpDirections, settings.hall_address, settings.hall_address, false, false, false, false, false);
+        PointLatLng pnt = tmpDirections.StartLocation;
+
+        gmMain.Position = new PointLatLng(pnt.Lat, pnt.Lng);
             }
 
             xppNavigate.Expand = true;
@@ -321,7 +327,7 @@ namespace Territory_Servant
                     foreach (PointLatLng point in poly.Points)
                     {
                         GPoint tmp = gmMain.FromLatLngToLocal(point);
-                        map_points[i] = new Point(tmp.X, tmp.Y);
+            map_points[i] = new Point(unchecked((int)tmp.X), unchecked((int)tmp.Y));
                         i++;
                     }
                 }
@@ -580,7 +586,11 @@ namespace Territory_Servant
             if (txtSearch.Text != "Enter an address and hit search" && txtSearch.Text != "" && !map.locked)
             {
                 map_changed();
-                gmMain.SetCurrentPositionByKeywords(txtSearch.Text);
+        GDirections tmpDirections;
+        GoogleMapProvider.Instance.GetDirections(out tmpDirections, txtSearch.Text, txtSearch.Text, false, false, false, false, false);
+        PointLatLng pnt = tmpDirections.StartLocation;
+
+        gmMain.Position = new PointLatLng(pnt.Lat, pnt.Lng);
             }
         }
         //////////////////////////////////////////////////////////////////////////////
