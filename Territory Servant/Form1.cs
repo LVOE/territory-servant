@@ -60,9 +60,12 @@ namespace Territory_Servant {
       gmMain.Scale(new SizeF(0.5F, 0.5F));
         GMapOverlay objects = new GMapOverlay(gmMain, "objects");
       gmMain.Overlays.Add(objects);
+
       polygons = new GMapOverlay(gmMain, "polygons");
       gmMain.Overlays.Add(polygons);
       flood_filler.FillStyle = FloodFillStyle.Queue;
+
+            load_templates();
 
       map = new Map();
       settings = new Settings();
@@ -86,7 +89,6 @@ namespace Territory_Servant {
 
         if (settings_form.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
           save_settings();
-          txtTemplate.Text = Path.GetDirectoryName(Application.ExecutablePath) + @"\Templates\default.xml";
           txtFrom.Text = settings.hall_address;
         }
       }
@@ -154,7 +156,26 @@ namespace Territory_Servant {
       }
     }
 
-    private void load_settings() {
+        private void load_templates()
+        {
+            String template_dir = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + "Templates";
+            cmbTemplate.Items.Clear();
+
+            if (Directory.Exists(template_dir))
+            {
+                DirectoryInfo dir = new DirectoryInfo(template_dir);
+                FileInfo[] files = dir.GetFiles();
+                TextInfo text_info = new CultureInfo("en-US", false).TextInfo;
+                foreach (var f in files)
+                {
+                    cmbTemplate.Items.Add(new TemplateItem(text_info.ToTitleCase(f.Name.Replace('_', ' ').Replace('-', ' ').ToLower().Replace(".xml", "")), f.DirectoryName + Path.DirectorySeparatorChar + f.Name));
+                }
+                cmbTemplate.SelectedIndex = 0;
+            }
+        }
+
+        private void load_settings()
+        {
       string filename = Path.GetDirectoryName(Application.ExecutablePath) + @"\settings.dat";
 
       if (!File.Exists(filename))
@@ -193,10 +214,14 @@ namespace Territory_Servant {
       if (settings.last_template == "")
         settings.last_template = Path.GetDirectoryName(Application.ExecutablePath) + @"\Templates\default.xml";
 
-      if (settings.last_template.Length > 0 && File.Exists(settings.last_template)) {
-        txtTemplate.Text = settings.last_template;
-        txtTemplate.Select(txtTemplate.TextLength, 0);
-        txtTemplate.ScrollToCaret();
+            if (settings.last_template.Length > 0 && File.Exists(settings.last_template))
+            {
+                foreach (TemplateItem item in cmbTemplate.Items) {
+                    if (item.Value == settings.last_template) {
+                        cmbTemplate.SelectedIndex = cmbTemplate.Items.IndexOf(item);
+                        break;
+                    }
+                }
         label1.Focus();
       }
 
@@ -206,11 +231,17 @@ namespace Territory_Servant {
       save_settings();
     }
 
-    private void save_settings() {
+        private void save_settings(bool FullSave = true)
+        {
+            if (settings == null)
+                return; 
+
       string filename = Path.GetDirectoryName(Application.ExecutablePath) + @"\settings.dat";
+
+            if (FullSave)
+            {
       settings.cong_name = settings_form.txtCongName.Text;
       settings.hall_address = settings_form.txtHallAddress.Text;
-      settings.last_template = txtTemplate.Text;
       settings.house_color = settings_form.pbxHouseColor.BackColor;
       settings.dnc_color = settings_form.pbxDNCColor.BackColor;
       settings.so_color = settings_form.pbxSOColor.BackColor;
@@ -228,6 +259,8 @@ namespace Territory_Servant {
         gmMain.Zoom = settings_form.tbrMainZoom.Value;
         gmMain.Update();
       }
+            }
+            settings.last_template = ((TemplateItem)cmbTemplate.SelectedItem).Value;
 
       File.WriteAllText(filename, ObjectToString(settings));
     }
@@ -265,7 +298,7 @@ namespace Territory_Servant {
           var i = 0;
           foreach (PointLatLng point in poly.Points) {
             GPoint tmp = gmMain.FromLatLngToLocal(point);
-            map_points[i] = new Point(unchecked((int)tmp.X), unchecked((int)tmp.Y));
+                        map_points[i] = new Point(tmp.X, tmp.Y);
             i++;
           }
         }
@@ -721,33 +754,22 @@ namespace Territory_Servant {
     private void xppExport_ExpandClick(object sender, EventArgs e) {
       gmMain.CanDragMap = false;
     }
-
-    private void txtTemplate_MouseClick(object sender, MouseEventArgs e) {
-      if (openTemplateDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-        template = new Template(openTemplateDialog.FileName);
-        txtTemplate.Text = openTemplateDialog.FileName;
-        txtTemplate.Select(txtTemplate.TextLength, 0);
-        txtTemplate.ScrollToCaret();
-        label1.Focus();
-
-        save_settings();
-      }
-    }
-
+    
     private void btnExport_MouseClick(object sender, MouseEventArgs e) {
       if (!map.locked) {
         MessageBox.Show("Map must be locked before you can export.");
         return;
       }
 
-      if (txtTemplate.Text.Length < 1) {
+            if (cmbTemplate.SelectedIndex < 0)
+            {
         MessageBox.Show("Please select a template file before exporting");
         return;
       }
 
       txtExportLog.Clear();
 
-      template = new Template(txtTemplate.Text);
+            template = new Template(((TemplateItem)cmbTemplate.SelectedItem).Value);
 
       if (savePdfDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
         save_map("", true);
@@ -961,6 +983,17 @@ namespace Territory_Servant {
     private void label8_Click(object sender, EventArgs e)
     {
 
+        }
+
+        private void cmbTemplate_TextChanged(object sender, EventArgs e)
+        {
+            if (cmbTemplate.SelectedIndex < 0)
+                cmbTemplate.SelectedIndex = 0;
+        }
+
+        private void cmbTemplate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            save_settings(false);
     }
     //////////////////////////////////////////////////////////////////////////////
   }
