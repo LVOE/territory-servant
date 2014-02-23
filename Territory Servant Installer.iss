@@ -48,8 +48,8 @@ Source: "C:\share\Documents\LVOE\Projects\territory-servant\Territory Servant\bi
 Source: "C:\share\Documents\LVOE\Projects\territory-servant\Territory Servant\bin\Release\MultiLineListBox.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\share\Documents\LVOE\Projects\territory-servant\Territory Servant\bin\Release\PdfSharp.Charting.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\share\Documents\LVOE\Projects\territory-servant\Territory Servant\bin\Release\PdfSharp.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\share\Documents\LVOE\Projects\territory-servant\Territory Servant\bin\Release\Templates\default.xml"; DestDir: "{app}\Templates"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\share\Documents\LVOE\Projects\territory-servant\Territory Servant\bin\Release\Templates\default_a4.xml"; DestDir: "{app}\Templates"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\share\Documents\LVOE\Projects\territory-servant\Territory Servant\Templates\default.xml"; DestDir: "{app}\Templates"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\share\Documents\LVOE\Projects\territory-servant\Territory Servant\Templates\default_a4.xml"; DestDir: "{app}\Templates"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; settings.dat permissions fix
 Source: "{app}\settings.dat"; DestDir: "{app}"; Flags: external skipifsourcedoesntexist; Permissions: everyone-full
