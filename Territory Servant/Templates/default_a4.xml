@@ -1,19 +1,19 @@
 <!-- Default Template -->
 <template>
 	<page size="A4">
-		<map type="1" x="37" y="70" width="647" height="611" />
-		<cong_name x="37" y="22" width="767" height="25" style="regular" align="center" font="Arial" size="16" color="#ff0000" suffix=" Territory Map" />
-		<map_name x="535" y="43" width="271" height="14" font="Arial" size="14" align="right" color="#808080" prefix="Territory Number: " />
-		<text x="560" y="73" width="222" height="15" style="bold" align="left" font="Arial" size="10" color="#ff0000">Do Not Calls and Notes:</text>
+		<map type="1" x="37" y="41" width="568" height="536" />
+		<cong_name x="37" y="17" width="766" height="25" style="regular" align="center" font="Arial" size="14" color="#ff0000" suffix=" Territory Map" />
+		<map_name x="632" y="39" width="170" height="14" font="Arial" size="12" align="right" color="#808080" prefix="Territory Number: " />
+		<text x="632" y="71" width="170" height="15" style="bold" align="left" font="Arial" size="10" color="#ff0000">Do Not Calls and Notes:</text>
 		<!-- At the moment a dnc_list can only be align left. The height is automatic. -->
-		<dnc_list x="560" y="88" width="242" font="Arial" size="10" color="#000000" include_other_notes="true" suffix="\n---------------------------------------" />
+		<dnc_list x="632" y="86" width="170" height="491" align="left" font="Arial" size="10" color="#000000" include_other_notes="true" suffix="\n---------------------------------------" />
 	</page>
 	<page size="A4">
-		<map type="2" x="37" y="70" width="647" height="611" />
-		<text x="37" y="22" width="744" height="25" style="regular" align="center" font="Arial" size="16" color="#ff0000">Area Map</text>
-		<map_name x="535" y="43" width="271" height="14" font="Arial" size="14" align="right" color="#808080" prefix="Territory Number: " />
-		<text x="560" y="73" width="222" height="15" style="bold" align="left" font="Arial" size="10" color="#ff0000">Directions from Kingdom Hall:</text>
+		<map type="2" x="37" y="41" width="568" height="536" />
+		<text x="37" y="17" width="766" height="25" style="regular" align="center" font="Arial" size="14" color="#ff0000">Area Map</text>
+		<map_name x="632" y="39" width="170" height="14" font="Arial" size="12" align="right" color="#808080" prefix="Territory Number: " />
+		<text x="632" y="71" width="170" height="15" style="bold" align="left" font="Arial" size="10" color="#ff0000">Directions from Kingdom Hall:</text>
 		<!-- At the moment directions can only be align left. The height is automatic. -->
-		<directions x="560" y="88" width="242" font="Arial" size="10" color="#000000"/>
+		<directions x="632" y="86" width="170" height="491" font="Arial" size="10" color="#000000"/>
 	</page>
 </template>
