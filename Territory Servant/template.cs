@@ -84,11 +84,11 @@ namespace Territory_Servant {
                   else
                     y = 0;
                   if (e_node.Attributes["width"] != null)
-                    width = Convert.ToDouble(e_node.Attributes["width"].Value) * 72 / map1.HorizontalResolution;
+                    width = Convert.ToDouble(e_node.Attributes["width"].Value);// * 72 / map1.HorizontalResolution;
                   else
                     width = 0;
                   if (e_node.Attributes["height"] != null)
-                    height = Convert.ToDouble(e_node.Attributes["height"].Value) * 72 / map1.VerticalResolution;
+                    height = Convert.ToDouble(e_node.Attributes["height"].Value);// * 72 / map1.VerticalResolution;
                   else
                     height = 0;
 

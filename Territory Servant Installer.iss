@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Territory Servant"
-#define MyAppVersion "1.11"
+#define MyAppVersion "1.2.1"
 #define MyAppPublisher "LVOE"
 #define MyAppURL "http://territoryservant.lvoe.us"
 #define MyAppExeName "Territory Servant.exe"
@@ -26,12 +26,18 @@ OutputDir=C:\share\Documents\LVOE\Projects\territory-servant\Territory Servant\b
 OutputBaseFilename=Install Territory Servant
 Compression=lzma
 SolidCompression=yes
+ChangesAssociations=yes
+
+[Registry]
+Root: HKCR; Subkey: ".map"; ValueType: string; ValueName: ""; ValueData: "TerritoryServantMapFile"; Flags: uninsdeletevalue
+Root: HKCR; Subkey: "TerritoryServantMapFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\Territory Servant.exe,0"
+Root: HKCR; Subkey: "TerritoryServantMapFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\Territory Servant.exe"" ""%1"""
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 
 [Files]
 Source: "C:\share\Documents\LVOE\Projects\territory-servant\Territory Servant\bin\Release\Territory Servant.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -52,8 +58,59 @@ Source: "{app}\settings.dat"; DestDir: "{app}"; Flags: external skipifsourcedoes
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\Uninstall {#MyAppName}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
+[Code]
+/////////////////////////////////////////////////////////////////////
+function oldFilesExist(): Boolean;
+begin
+  if(FileExists(ExpandConstant('{app}\uninstall.exe'))) then
+  begin
+    Result := True;
+  end
+  else
+  begin
+    Result := False;
+  end;
+end;
+
+/////////////////////////////////////////////////////////////////////
+function UnInstallOldVersion(): Boolean;
+var
+  iResultCode: Integer;
+begin
+    if Exec(ExpandConstant('{app}\uninstall.exe'), '','', SW_SHOW, ewWaitUntilTerminated, iResultCode) then
+      Result := True
+    else
+      Result := False;
+end;
+
+/////////////////////////////////////////////////////////////////////
+function NextButtonClick(CurPageID: Integer) : Boolean;                             
+var
+  ResultCode: integer;
+begin                   
+  //MsgBox(IntToStr(CurPageId), mbInformation, MB_OK);
+  if (CurPageID=6) then
+  begin
+    if (oldFilesExist()) then
+    begin
+      MsgBox('Please uninstall the older version of Territory Servant before continuing', mbInformation, MB_OK);
+      UnInstallOldVersion();
+      //ShellExec('', 'exporer', '{app}', '{app}', SW_SHOW, ewNoWait, resultCode);
+      Result := False;
+      Exit;
+    end;
+  end;
+  Result := True;
+end;
+
+procedure BeforeInstall();
+begin
+  // Delete old .key file association
+  RegDeleteKeyIncludingSubkeys(HKU, '')
+end;

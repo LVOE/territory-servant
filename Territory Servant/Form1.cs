@@ -26,12 +26,12 @@ namespace Territory_Servant
         public Form1(string[] args)
         {
             if (args.Length > 0 && File.Exists(args[0]))
-                current_file = args[0];
+            current_file = args[0];
 
             InitializeComponent();
         }
 
-        public const double Version = 1.2;
+        public const double Version = 1.2.1;
 
         public static Map map;
         public static Settings settings;
@@ -58,7 +58,8 @@ namespace Territory_Servant
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            FileAssociation.Associate(".map", "LVOE.TerritoryServant", "map File", Path.GetDirectoryName(Application.ExecutablePath) + @"\icon.ico", Application.ExecutablePath);
+            // This is done in the installer now
+            //FileAssociation.Associate(".map", "LVOE.TerritoryServant", "map File", Path.GetDirectoryName(Application.ExecutablePath) + @"\icon.ico", Application.ExecutablePath);
 
             gmMain.MapProvider = GMapProviders.GoogleMap;
             gmMain.Scale(new SizeF(2, 2));
@@ -174,7 +175,7 @@ namespace Territory_Servant
 
         private void load_templates()
         {
-            String template_dir = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + "Templates";
+            String template_dir = Path.GetDirectoryName(Application.ExecutablePath) + @"\Templates";
             cmbTemplate.Items.Clear();
 
             if (Directory.Exists(template_dir))
@@ -250,7 +251,7 @@ namespace Territory_Servant
         private void save_settings(bool FullSave = true)
         {
             if (settings == null)
-                return; 
+                return;
 
             string filename = Path.GetDirectoryName(Application.ExecutablePath) + @"\settings.dat";
 
