@@ -57,3 +57,47 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
+[Code]
+/////////////////////////////////////////////////////////////////////
+function oldFilesExist(): Boolean;
+begin
+  if(FileExists(ExpandConstant('{app}\uninstall.exe'))) then
+  begin
+    Result := True;
+  end
+  else
+  begin
+    Result := False;
+  end;
+end;
+
+/////////////////////////////////////////////////////////////////////
+function UnInstallOldVersion(): Boolean;
+var
+  iResultCode: Integer;
+begin
+    if Exec(ExpandConstant('{app}\uninstall.exe'), '','', SW_SHOW, ewWaitUntilTerminated, iResultCode) then
+      Result := True
+    else
+      Result := False;
+end;
+
+/////////////////////////////////////////////////////////////////////
+function NextButtonClick(CurPageID: Integer) : Boolean;                             
+var
+  ResultCode: integer;
+begin                   
+  //MsgBox(IntToStr(CurPageId), mbInformation, MB_OK);
+  if (CurPageID=6) then
+  begin
+    if (oldFilesExist()) then
+    begin
+      MsgBox('Please uninstall the older version of Territory Servant before continuing', mbInformation, MB_OK);
+      UnInstallOldVersion();
+      //ShellExec('', 'exporer', '{app}', '{app}', SW_SHOW, ewNoWait, resultCode);
+      Result := False;
+      Exit;
+    end;
+  end;
+  Result := True;
+end;
