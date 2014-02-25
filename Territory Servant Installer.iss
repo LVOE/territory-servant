@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Territory Servant"
-#define MyAppVersion "1.2.1"
+#define MyAppVersion "1.3"
 #define MyAppPublisher "LVOE"
 #define MyAppURL "http://territoryservant.lvoe.us"
 #define MyAppExeName "Territory Servant.exe"

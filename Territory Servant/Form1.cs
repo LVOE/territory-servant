@@ -31,7 +31,7 @@ namespace Territory_Servant
             InitializeComponent();
         }
 
-        public const double Version = 1.2.1;
+        public const double Version = 1.3;
 
         public static Map map;
         public static Settings settings;
