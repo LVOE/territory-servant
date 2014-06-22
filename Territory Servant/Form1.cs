@@ -54,6 +54,8 @@ namespace Territory_Servant
             Home = 2,
             DNC = 3,
             SO = 4,
+            Surrounding = 5,
+            Boundary = 6,
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -77,6 +79,7 @@ namespace Territory_Servant
             settings = new Settings();
             load_settings();
 
+            map.boundary_color = settings.boundary_color;
             map.house_color = settings.house_color;
             map.dnc_color = settings.dnc_color;
             map.so_color = settings.so_color;
@@ -85,6 +88,7 @@ namespace Territory_Servant
             {
                 settings_form.txtCongName.Text = settings.cong_name;
                 settings_form.txtHallAddress.Text = settings.hall_address;
+                settings_form.pbxBoundaryColor.BackColor = settings.boundary_color;
                 settings_form.pbxHouseColor.BackColor = settings.house_color;
                 settings_form.pbxDNCColor.BackColor = settings.dnc_color;
                 settings_form.pbxSOColor.BackColor = settings.so_color;
@@ -98,6 +102,7 @@ namespace Territory_Servant
                 {
                     save_settings();
                     txtFrom.Text = settings.hall_address;
+                    settings_form.btnClose.Enabled = true;
                 }
             }
 
@@ -204,6 +209,11 @@ namespace Territory_Servant
             settings_form.txtCongName.Text = settings.cong_name;
             settings_form.txtHallAddress.Text = settings.hall_address;
 
+            if (settings.boundary_color != Color.Empty)
+                settings_form.pbxBoundaryColor.BackColor = settings.boundary_color;
+            else
+                settings_form.pbxBoundaryColor.BackColor = default_settings.boundary_color;
+
             if (settings.house_color != Color.Empty)
                 settings_form.pbxHouseColor.BackColor = settings.house_color;
             else
@@ -259,6 +269,7 @@ namespace Territory_Servant
             {
                 settings.cong_name = settings_form.txtCongName.Text;
                 settings.hall_address = settings_form.txtHallAddress.Text;
+                settings.boundary_color = settings_form.pbxBoundaryColor.BackColor;
                 settings.house_color = settings_form.pbxHouseColor.BackColor;
                 settings.dnc_color = settings_form.pbxDNCColor.BackColor;
                 settings.so_color = settings_form.pbxSOColor.BackColor;
@@ -328,7 +339,7 @@ namespace Territory_Servant
                     foreach (PointLatLng point in poly.Points)
                     {
                         GPoint tmp = gmMain.FromLatLngToLocal(point);
-            map_points[i] = new Point(unchecked((int)tmp.X), unchecked((int)tmp.Y));
+                        map_points[i] = new Point(unchecked((int)tmp.X), unchecked((int)tmp.Y));
                         i++;
                     }
                 }
@@ -382,6 +393,7 @@ namespace Territory_Servant
             txtDirections.Text = "";
             txtTo.Text = "";
 
+            map.boundary_color = settings.boundary_color;
             map.house_color = settings.house_color;
             map.dnc_color = settings.dnc_color;
             map.so_color = settings.so_color;
@@ -492,6 +504,8 @@ namespace Territory_Servant
             txtDirections.Text = map.directions;
             txtNotes.Text = map.notes;
 
+            if (map.boundary_color == Color.Empty)
+                map.boundary_color = settings.boundary_color;
             if (map.house_color == Color.Empty)
                 map.house_color = settings.house_color;
             if (map.dnc_color == Color.Empty)
@@ -614,6 +628,14 @@ namespace Territory_Servant
                         break;
                     case property_type.Home:
                         fill(get_color_by_property_type(property_type.Property), point);
+                        map_changed();
+                        break;
+                    case property_type.Surrounding:
+                        fill(get_color_by_property_type(property_type.Boundary), point);
+                        map_changed();
+                        break;
+                    case property_type.Boundary:
+                        fill(get_color_by_property_type(property_type.Surrounding), point);
                         map_changed();
                         break;
                     default:
@@ -942,7 +964,13 @@ namespace Territory_Servant
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (settings_form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
                 save_settings();
+            }
+            else
+            {
+                load_settings();
+            }
         }
         //////////////////////////////////////////////////////////////////////////////
 
@@ -972,8 +1000,15 @@ namespace Territory_Servant
                 {
                     if (PointInPolygon(new Point(x, y), points))
                     {
-                        if (get_property_type(map.bmp.GetPixel(x, y)) == property_type.Property) // if gray
-                            map.bmp.SetPixel(x, y, get_color_by_property_type(property_type.Home)); // make green
+                        switch (get_property_type(map.bmp.GetPixel(x, y)))
+                        {
+                            case property_type.Surrounding:
+                                map.bmp.SetPixel(x, y, get_color_by_property_type(property_type.Boundary));
+                                break;
+                            case property_type.Property:
+                                map.bmp.SetPixel(x, y, get_color_by_property_type(property_type.Home));
+                                break;
+                        }
                     }
                 }
             }
@@ -981,6 +1016,16 @@ namespace Territory_Servant
 
         public static property_type get_property_type(Color color)
         {
+
+            if (color.ToArgb() == get_color_by_property_type(property_type.Boundary).ToArgb())
+            {
+                return property_type.Boundary;
+            }
+
+            if (color.ToArgb() == get_color_by_property_type(property_type.Surrounding).ToArgb())
+            {
+                return property_type.Surrounding;
+            }
 
             if (color.ToArgb() == get_color_by_property_type(property_type.Home).ToArgb())
             {
@@ -1014,6 +1059,10 @@ namespace Territory_Servant
             {
                 case property_type.Property:
                     return Form1.map.property_color;
+                case property_type.Surrounding:
+                    return Form1.map.surrounding_color;
+                case property_type.Boundary:
+                    return Form1.map.boundary_color;
                 case property_type.Home:
                     return Form1.map.house_color;
                 case property_type.DNC:

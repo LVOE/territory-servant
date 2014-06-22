@@ -29,6 +29,14 @@ namespace Territory_Servant {
         btnSave.Enabled = false;
     }
 
+    private void pbxBoundaryColor_MouseClick(object sender, MouseEventArgs e)
+    {
+        if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        {
+            pbxBoundaryColor.BackColor = colorDialog.Color;
+        }
+    }
+
     private void pbxHouseColor_MouseClick(object sender, MouseEventArgs e) {
 
       if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {

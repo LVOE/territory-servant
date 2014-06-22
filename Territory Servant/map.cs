@@ -13,9 +13,11 @@ namespace Territory_Servant {
     public bool locked;
     public string name, directions, directions_from, directions_to, notes;
     public Color property_color = Color.FromArgb(237, 230, 220);
-    public Color house_color = Color.FromArgb(193, 255, 193);
-    public Color dnc_color = Color.FromArgb(255, 73, 73);
-    public Color so_color = Color.FromArgb(255, 146, 73);
+    public Color surrounding_color = Color.FromArgb(233, 229, 220);
+    public Color boundary_color = Color.FromArgb(200, 206, 229);
+    public Color house_color = Color.FromArgb(133, 243, 67);
+    public Color dnc_color = Color.FromArgb(247, 247, 73);
+    public Color so_color = Color.FromArgb(255, 57, 57);
     public int main_zoom = 17;
     public int area_zoom = 16;
 
