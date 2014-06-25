@@ -1199,6 +1199,15 @@ namespace Territory_Servant
         {
             save_settings(false);
         }
+
+        private void whatsNewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (whats_new.ShowDialog() == DialogResult.OK)
+            {
+                settings.whats_new_last_version = Version;
+                save_settings();
+            }
+        }
         //////////////////////////////////////////////////////////////////////////////
     }
 }

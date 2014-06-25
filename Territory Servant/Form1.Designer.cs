@@ -74,6 +74,7 @@
             this.txtMapName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.savePdfDialog = new System.Windows.Forms.SaveFileDialog();
+            this.whatsNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xPanderPanelList1.SuspendLayout();
             this.xppNavigate.SuspendLayout();
             this.xppMark.SuspendLayout();
@@ -532,7 +533,8 @@
             this.menuStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mapToolStripMenuItem,
-            this.settingsToolStripMenuItem});
+            this.settingsToolStripMenuItem,
+            this.whatsNewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(918, 24);
@@ -644,6 +646,13 @@
             this.savePdfDialog.Filter = "PDF Files|*.pdf";
             this.savePdfDialog.RestoreDirectory = true;
             // 
+            // whatsNewToolStripMenuItem
+            // 
+            this.whatsNewToolStripMenuItem.Name = "whatsNewToolStripMenuItem";
+            this.whatsNewToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+            this.whatsNewToolStripMenuItem.Text = "What\'s New";
+            this.whatsNewToolStripMenuItem.Click += new System.EventHandler(this.whatsNewToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -728,6 +737,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtNotes;
         private System.Windows.Forms.ComboBox cmbTemplate;
+        private System.Windows.Forms.ToolStripMenuItem whatsNewToolStripMenuItem;
 
     }
 }
