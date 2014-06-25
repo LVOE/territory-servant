@@ -47,6 +47,7 @@ namespace Territory_Servant
 
         frmDNC dnc_form = new frmDNC();
         frmSettings settings_form = new frmSettings();
+        frmWhatsNew whats_new = new frmWhatsNew();
 
         public enum property_type
         {
@@ -121,12 +122,12 @@ namespace Territory_Servant
                 gmMain.MinZoom = settings.main_zoom;
                 gmMain.MaxZoom = settings.main_zoom;
 
-        GDirections tmpDirections;
+                GDirections tmpDirections;
 
-        GoogleMapProvider.Instance.GetDirections(out tmpDirections, settings.hall_address, settings.hall_address, false, false, false, false, false);
-        PointLatLng pnt = tmpDirections.StartLocation;
+                GoogleMapProvider.Instance.GetDirections(out tmpDirections, settings.hall_address, settings.hall_address, false, false, false, false, false);
+                PointLatLng pnt = tmpDirections.StartLocation;
 
-        gmMain.Position = new PointLatLng(pnt.Lat, pnt.Lng);
+                gmMain.Position = new PointLatLng(pnt.Lat, pnt.Lng);
             }
 
             xppNavigate.Expand = true;
@@ -143,13 +144,29 @@ namespace Territory_Servant
             this.Text = "Territory Servant - Untitled Map";
 
             Form1_Resize(null, null);
+        }
 
-            try
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            // Show What's New
+            if (settings.whats_new_last_version != Version)
             {
-                Updater updater = new Updater();
-                updater.check_for_updates();
+                if (whats_new.ShowDialog() == DialogResult.OK)
+                {
+                    settings.whats_new_last_version = Version;
+                    save_settings();
+                }
             }
-            catch { }
+            else
+            {
+                try
+                {
+                    Updater updater = new Updater();
+                    updater.check_for_updates();
+                }
+                catch { }
+            }
         }
 
         private void Form1_Resize(object sender, EventArgs e)
