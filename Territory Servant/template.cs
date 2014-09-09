@@ -286,7 +286,6 @@ namespace Territory_Servant {
       int start_y = (map2_merged.Height / 2) - (map1_shrunk.Height / 2);
       for (int x = 0; x < map1_shrunk.Width; x++) {
         for (int y = 0; y < map1_shrunk.Height; y++) {
-          //  if (Form1.get_property_type(map1_shrunk.GetPixel(start_x, start_y)) == Form1.property_type.Property) {
             switch (Form1.get_property_type(map1_shrunk.GetPixel(x, y)))
             {
                 case Form1.property_type.Boundary:
@@ -298,12 +297,11 @@ namespace Territory_Servant {
                 case Form1.property_type.DNC:
                     map2_merged.SetPixel(start_x + x, start_y + y, Form1.get_color_by_property_type(Form1.property_type.DNC));
                     break;
-                  case Form1.property_type.SO:
+                case Form1.property_type.SO:
                     map2_merged.SetPixel(start_x + x, start_y + y, Form1.get_color_by_property_type(Form1.property_type.SO));
                     break;
-                }
+            }
           }
-      //  }
       }
 
       return map2_merged;

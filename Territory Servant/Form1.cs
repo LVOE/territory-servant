@@ -56,6 +56,7 @@ namespace Territory_Servant
             SO = 4,
             Surrounding = 5,
             Boundary = 6,
+            BoundaryLine = 7
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -453,6 +454,7 @@ namespace Territory_Servant
                 if (map_points.Length >= 3)
                 {
                     fill_pixels_between_points(map_points);
+                    draw_boundary_lines(map_points);
                     pbMain.Image = map.bmp;
                 }
             }
@@ -1014,6 +1016,18 @@ namespace Territory_Servant
             }
         }
 
+        private void draw_boundary_lines(Point[] points)
+        {
+            // todo: make pen color customizable
+            Pen boundaryPen = new Pen(Color.Red, 3);
+            boundaryPen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
+
+            using (Graphics graphics = Graphics.FromImage(map.bmp))
+            {
+                graphics.DrawLines(boundaryPen, points);
+            }
+        }
+
         public static property_type get_property_type(Color color)
         {
 
@@ -1042,6 +1056,11 @@ namespace Territory_Servant
                 return property_type.SO;
             }
 
+            if (color == Color.Red)
+            {
+                return property_type.BoundaryLine;
+            }
+
             if (color.R >= 230 && color.R <= 250
             && color.G >= 230 && color.G <= 250
             && color.B >= 220 && color.B <= 250)
@@ -1063,6 +1082,8 @@ namespace Territory_Servant
                     return Form1.map.surrounding_color;
                 case property_type.Boundary:
                     return Form1.map.boundary_color;
+                case property_type.BoundaryLine:
+                    return Color.Red;
                 case property_type.Home:
                     return Form1.map.house_color;
                 case property_type.DNC:
